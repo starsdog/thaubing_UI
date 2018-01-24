@@ -1,0 +1,16 @@
+.group-search-wrapper {
+
+}
+.group-search-form label {
+  font-weight: bold;
+}
+.group-search-form { 
+  display: inline-block;
+  width: 30%;
+  vertical-align: top;
+}
+.group-search-list { 
+  display: inline-block;
+  width: 65%;
+  margin-left: %4;
+}
