@@ -50,6 +50,7 @@ function init_library(){
     );
     
     drupal_add_css($plugin_base_path."/bootstrap/css/bootstrap.min.css", $options);
+    drupal_add_css($module_base_path."/grouprelation.css", $options);
     drupal_add_js($plugin_base_path."/jQuery/jQuery-2.2.0.min.js", $options);
     drupal_add_js($plugin_base_path."/datatables/jquery.dataTables.min.js", $options);
     drupal_add_js($plugin_base_path."/datatables/dataTables.buttons.min.js", $options);
@@ -189,19 +190,21 @@ function grouprelation_search(){
     init_custom();
 
     $output = '';
+    $output .= '<div class="group-search-form">';
     $output .= '<form>';
-    $output .= '<div><span>集團名稱或是公司名稱: </span><input id="search_text" name="search_text" type="text" /></div>';
-    $output .= '<div><span>公司股票: </span><input id="search_stock" name="search_stock" type="text" /></div>';
-    $output .= '<div><span>公司統一編號: </span><input id="search_taxcode" name="search_taxcode" type="text" /></div>';
-    $output .= '<div><button type="submit">查詢</button></div>';
+    $output .= '<div><label for="search_text">集團名稱或是公司名稱: </label><input id="search_text" name="search_text" type="text" /></div>';
+    $output .= '<div><label for="search_stock">公司股票: </label><input id="search_stock" name="search_stock" type="text" /></div>';
+    $output .= '<div><label for="search_taxcode">公司統一編號: </label><input id="search_taxcode" name="search_taxcode" type="text" /></div>';
+    $output .= '<div><input type="submit" class="form-submit" value="查詢" /></div>';
     $output .= '</form>';
+    $output .= '</div>';
 
-    $output .= '<div id="table_group_list_area" style="display: none">';
+    $output .= '<div id="table_group_list_area" style="display: none" class="group-search-list">';
     $output .= '<table id="table_group_list">';
     $output .= '</table>';
     $output .= '</div>';
 
-    $output .= '<div><span id="search_warning" style="display: none">沒有符合的結果</span></div>';
+    $output .= '<div><span id="search_warning" style="display: none" class="group-search-list">沒有符合的結果</span></div>';
     return $output;
 }
 
