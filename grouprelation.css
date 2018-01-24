@@ -21,3 +21,10 @@
   width: 65%;
   margin-left: 4%;
 }
+
+.group-data-title {
+  margin: 10px 0;
+}
+.group-data-block {
+  margin-bottom: 30px;
+}

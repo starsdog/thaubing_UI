@@ -1,4 +1,5 @@
 <?php
+define('GROUPRELATION_YEAR', '2016');
 
 function grouprelation_menu() {
   $items['group/search'] = array(
@@ -32,7 +33,7 @@ function grouprelation_menu() {
 }
 
 function find_group_json($group_name){
-    $year=2016;
+    $year = GROUPRELATION_YEAR;
     $json_base_path = 'companydata/group_relation/';
     $json_filename=$group_name.'_'.$year.'_list.json';
     $json_file = $json_base_path .$group_name.'/'.$json_filename;
@@ -82,7 +83,7 @@ function groupinfo_show($group_name){
       $group_data = json_decode($json);
       if (!empty($group_data)) {
         // set page title
-        drupal_set_title($group_data->company_summery->group_name);
+        drupal_set_title($group_data->company_summery->group_name. '集團');
         // we should use php to generate static data here for better SEO
         $summary = array(
           '集團公司總數' => $group_data->company_summery->company_amount.'家',
@@ -97,14 +98,20 @@ function groupinfo_show($group_name){
         }
 
         $output = '';
-        $output .= '<h2>集團基本資料</h2>';
-        $output .= '<div id="table_summery_area">';
+        $output .= '<h2 class="group-data-title">集團基本資料</h2>';
+        $output .= '<div id="table_summery_area" class="group-data-block">';
         $output .= '<div id="summery_content">';
         $output .= '<ul><li>'.implode('</li><li>', $items).'</li></ul>';
         $output .= '</div></div>';
 
-        $output .= '<h2>子公司搜尋</h2>';
-        $output .= '<div id="table_company_area" style="display: none" >';
+        $output .= '<h2 class="group-data-title">集團關係圖</h2>';
+        $output .= '<div class="group-data-block">';
+        $output .= '<iframe src="'.base_path().'companydata/graph.html?year='.GROUPRELATION_YEAR.'&group='.$group_name.'" frameBorder="0" width="100%" height="480px" scrolling="no"></iframe>';
+        $output .= '<a onclick="open_graph(\''.GROUPRELATION_YEAR.'\',\''.$group_name.'\'); return false;"><i class="glyphicon glyphicon-stats"></i></a>';
+        $output .= '</div>';
+
+        $output .= '<h2 class="group-data-title">子公司搜尋</h2>';
+        $output .= '<div id="table_company_area" style="display: none" class="group-data-block">';
         $output .= '<table id="table_company" >';
         $output .= '<thead><tr>';
         $output .= '<th >子公司統一編號</th>';
@@ -113,8 +120,8 @@ function groupinfo_show($group_name){
         $output .= '</tr></thead></table>';
         $output .= '</div>';
 
-        $output .= '<h2>裁罰紀錄搜尋</h2>';
-        $output .= '<div id="table_fine_company_area" style="display: none" >';
+        $output .= '<h2 class="group-data-title">裁罰紀錄搜尋</h2>';
+        $output .= '<div id="table_fine_company_area" style="display: none" class="group-data-block">';
         $output .= '<table id="table_fine_company">';
         $output .= '<thead><tr>';
         $output .= '<th >公司名稱</th>';
@@ -124,7 +131,7 @@ function groupinfo_show($group_name){
         $output .= '</tr></thead></table>';
         $output .= '</div>';
 
-        $output .= '<div id="table_fine_record_area" style="display: none" >';
+        $output .= '<div id="table_fine_record_area" style="display: none" class="group-data-block">';
         $output .= '<table id="table_fine_record">';
         $output .= '<thead><tr>';
         $output .= '<th >工廠名稱</th>';
@@ -142,7 +149,7 @@ function groupinfo_show($group_name){
 }
 
 function query_belong_group($search_target, $search_type){
-  $year=2016;
+  $year = GROUPRELATION_YEAR;
   $query = "SELECT factory_group.group from factory_group";
   if($search_type=='source'){
     $query .= " where sublist_source like :search_target";
