@@ -192,9 +192,9 @@ function grouprelation_search(){
     $output = '<div class="group-search-wrapper">';
     $output .= '<div class="group-search-form">';
     $output .= '<form>';
-    $output .= '<div class="form-item"><label for="search_text">集團名稱或是公司名稱: </label><input id="search_text" name="search_text" type="text" class="form-text" /></div>';
-    $output .= '<div class="form-item"><label for="search_stock">公司股票: </label><input id="search_stock" name="search_stock" type="text" class="form-text" /></div>';
-    $output .= '<div class="form-item"><label for="search_taxcode">公司統一編號: </label><input id="search_taxcode" name="search_taxcode" type="text" class="form-text" /></div>';
+    $output .= '<div class="form-item"><label for="search_text">集團或公司名稱</label><input id="search_text" name="search_text" type="text" class="form-text" /></div>';
+    $output .= '<div class="form-item"><label for="search_stock">公司股票</label><input id="search_stock" name="search_stock" type="text" class="form-text" /></div>';
+    $output .= '<div class="form-item"><label for="search_taxcode">公司統一編號</label><input id="search_taxcode" name="search_taxcode" type="text" class="form-text" /></div>';
     $output .= '<div class="form-item submit-buttons"><input type="submit" class="form-submit btn-4 rounded" value="查詢" /></div>';
     $output .= '</form>';
     $output .= '</div>';
@@ -204,7 +204,7 @@ function grouprelation_search(){
     $output .= '</table>';
     $output .= '</div>';
 
-    $output .= '<div><span id="search_warning" style="display: none" class="group-search-list">沒有符合的結果</span></div>';
+    $output .= '<div class="group-search-list"><span id="search_warning" style="display: none">沒有符合的結果</span></div>';
     $output .= '</div><!--end group-search-wrapper-->';
     return $output;
 }

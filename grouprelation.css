@@ -1,16 +1,23 @@
 .group-search-wrapper {
 
 }
-.group-search-form label {
-  font-weight: bold;
-}
 .group-search-form { 
   display: inline-block;
   width: 30%;
   vertical-align: top;
 }
+.group-search-form label {
+  font-weight: bold;
+  min-width: 120px;
+}
+.group-search-form .form-text {
+  max-width: 190px;
+}
+.group-search-form .submit-buttons {
+  text-align: center;
+}
 .group-search-list { 
   display: inline-block;
   width: 65%;
-  margin-left: %4;
+  margin-left: 4%;
 }
