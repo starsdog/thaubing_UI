@@ -28,3 +28,19 @@
 .group-data-block {
   margin-bottom: 30px;
 }
+.group-data-block table {
+  width: 100%;
+}
+.group-data-block th {
+  font-weight: bold;
+}
+.group-data-block .dataTables_paginate {
+  text-align: center;
+}
+.group-data-block .dataTables_filter {
+  font-weight: bold; 
+  padding: 10px;
+}
+.group-data-block .dataTables_filter .form-control {
+  margin-left: 10px;
+}
