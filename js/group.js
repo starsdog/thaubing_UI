@@ -167,7 +167,7 @@ function query_group(){
     console.log(json_path);
     $.get(json_path,function(data){
         summery=new GroupInfo(data['company_summery']);
-        summery_table.loadData(summery);
+        //summery_table.loadData(summery);
         
         result = parseTargetSource(data['target_list']);
         var company_table_element = $('#table_company'); 

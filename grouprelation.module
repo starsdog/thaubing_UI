@@ -188,18 +188,21 @@ function grouprelation_search(){
     $title = '集團搜尋';
     drupal_set_title($title);
 
+    $stock_target='';
+    $name_target='';
+    $taxcode_target='';
     if ($_REQUEST['search_stock']!=''){
-       $target=$_REQUEST['search_stock'];
-       query_belong_group($target, 'stock');
+       $stock_target=$_REQUEST['search_stock'];
+       query_belong_group($stock_target, 'stock');
     }  
     else if($_REQUEST['search_text']!=''){
-      $target=$_REQUEST['search_text'];
-      $new_target=str_replace("臺灣", "台灣", $target);
+      $name_target=$_REQUEST['search_text'];
+      $new_target=str_replace("臺灣", "台灣", $name_target);
       query_belong_group($new_target, 'source');
     }
     else if ($_REQUEST['search_taxcode']!=''){
-       $target=$_REQUEST['search_taxcode'];
-       query_belong_group($new_target, 'taxcode');
+       $taxcode_target=$_REQUEST['search_taxcode'];
+       query_belong_group($taxcode_target, 'taxcode');
     }  
     else{
       drupal_add_js("var group_name = 'all';", 'inline');
@@ -208,12 +211,13 @@ function grouprelation_search(){
     init_library();
     init_custom();
 
+
     $output = '<div class="group-search-wrapper">';
     $output .= '<div class="group-search-form">';
     $output .= '<form>';
-    $output .= '<div class="form-item"><label for="search_text">集團或公司名稱</label><input id="search_text" name="search_text" type="text" class="form-text" /></div>';
-    $output .= '<div class="form-item"><label for="search_stock">公司股票</label><input id="search_stock" name="search_stock" type="text" class="form-text" /></div>';
-    $output .= '<div class="form-item"><label for="search_taxcode">公司統一編號</label><input id="search_taxcode" name="search_taxcode" type="text" class="form-text" /></div>';
+    $output .= '<div class="form-item"><label for="search_text">集團或公司名稱</label><input id="search_text" name="search_text" type="text" class="form-text"'.' value="'.$name_target.'"/></div>';
+    $output .= '<div class="form-item"><label for="search_stock">公司股票</label><input id="search_stock" name="search_stock" type="text" class="form-text"'.' value="'.$stock_target.'"/></div>';
+    $output .= '<div class="form-item"><label for="search_taxcode">公司統一編號</label><input id="search_taxcode" name="search_taxcode" type="text" class="form-text"'.' value="'.$taxcode_target.'"/></div>';
     $output .= '<div class="form-item submit-buttons"><input type="submit" class="form-submit btn-4 rounded" value="查詢" /></div>';
     $output .= '</form>';
     $output .= '</div>';

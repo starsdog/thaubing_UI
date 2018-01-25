@@ -6,17 +6,14 @@ var groupName_table={
     'group_map':new Object(),
 
     'prepareTable':function(result){
-        var row='<tr>';
+        var row='<ul>';
         var count=1;
         $.each(result, function (index, group_no) {
             var link='/group/name/'+group_no;
-            row+='<td><a href="'+link+'">'+groupName_table.group_map[group_no]+'</td>';
-            if((count%5)==0){
-                row+='</tr><tr>';
-            }
+            row+='<li><a href="'+link+'">'+groupName_table.group_map[group_no]+'</li>';
             count+=1;
         });  
-        row += '</tr>'; 
+        row += '</ul>'; 
         $('#table_group_list').append(row); 
     },
 
