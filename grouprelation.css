@@ -45,3 +45,20 @@
 .group-data-block .dataTables_filter .form-control {
   margin-left: 10px;
 }
+.group-search-list .group-item {
+  margin: 15px 0;
+}
+.group-search-list .group-desc {
+  font-size: 18px;
+}
+.group-search-list .penalty-count {
+  border: 1px solid #FD8D8D;
+  background: #FFF;
+  font-size: 13px;
+  padding: 0 3px;
+  margin-left: 10px;
+  color: #333;
+}
+.group-search-list .group-company {
+  color: #777;
+}
