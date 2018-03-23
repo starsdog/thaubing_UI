@@ -1,12 +1,80 @@
+function interpolateZoom (translate, scale) {
+    var self = this;
+    return selection.transition().duration(350)
+              .call(zoom.transform, 
+                    d3.zoomIdentity.translate(translate[0], translate[1]).scale(scale))
+}
+function clickZoom(){
+    var clicked = d3.event.target,
+    direction = 1,
+    factor = 0.1,
+    target_zoom = 1,
+    center = [window.innerWidth / 2, (window.innerHeight-60) / 2],
+    zoom = d3.behavior.zoom(),
+    extent = zoom.scaleExtent(),
+    translate = d3.zoomTransform(selection.node()), // ADDED
+    translate0 = [],
+    l = [],
+    view = {x: translate.x, y: translate.y, k: translate.k};
+
+    d3.event.preventDefault();
+    direction = (this.id === 'zoom_in') ? 1 : -1;
+    console.log('DIRECTiON:', direction);
+    target_zoom = view.k * (1 + factor * direction);
+
+    if (target_zoom < extent[0] || target_zoom > extent[1]) { return false; }
+
+    translate0 = [(center[0] - view.x) / view.k, (center[1] - view.y) / view.k];
+    view.k = target_zoom;
+    l = [translate0[0] * view.k + view.x, translate0[1] * view.k + view.y];
+
+    view.x += center[0] - l[0];
+    view.y += center[1] - l[1];
+
+    interpolateZoom([view.x, view.y], view.k);
+};    
+
 var graph_area={
+    'clicekZoom':function(){
+        var clicked = d3.event.target,
+        direction = 1,
+        factor = 0.1,
+        target_zoom = 1,
+        center = [window.innerWidth / 2, (window.innerHeight-60) / 2],
+        zoom = d3.behavior.zoom(),
+        extent = zoom.scaleExtent(),
+        translate = d3.zoomTransform(selection.node()), // ADDED
+        translate0 = [],
+        l = [],
+        view = {x: translate.x, y: translate.y, k: translate.k};
+
+        d3.event.preventDefault();
+        direction = (this.id === 'zoom_in') ? 1 : -1;
+        console.log('DIRECTiON:', direction);
+        target_zoom = view.k * (1 + factor * direction);
+
+        if (target_zoom < extent[0] || target_zoom > extent[1]) { return false; }
+
+        translate0 = [(center[0] - view.x) / view.k, (center[1] - view.y) / view.k];
+        view.k = target_zoom;
+        l = [translate0[0] * view.k + view.x, translate0[1] * view.k + view.y];
+
+        view.x += center[0] - l[0];
+        view.y += center[1] - l[1];
+
+        interpolateZoom([view.x, view.y], view.k);
+
+    },
+
     'submit':function(year, group){
-        graph_file='/companydata/group_relation/'+group+'/'+group+'_'+year+'_graph.json';
+        //graph_file='/companydata/group_relation/'+group+'/'+group+'_'+year+'_graph.json';
+        graph_file='G1101_2016_graph.json'
         d3.json(graph_file, function(json) {
             function GroupExplorer(wrapper,config){
                 var defaultConfig={
                     data:{"nodes":[],"links":[]},
                     width:window.innerWidth,
-                    height:window.innerHeight-30,
+                    height:window.innerHeight-60,
                     distance:100
                 };
                 $.extend(true,defaultConfig,config);
@@ -28,7 +96,7 @@ var graph_area={
                         .scaleExtent([0.2,10])
                         .on("zoom",function(){
                             _this.zoomed();
-                        });
+                        })
 
                 this.vis = d3.select("body").append("svg:svg")
                         .attr("width", defaultConfig.width)
@@ -39,6 +107,7 @@ var graph_area={
                         .attr("width", defaultConfig.width)
                         .attr("height", defaultConfig.height)
 
+                d3.selectAll('button').on('click', graph_area.clickZoom);
 
                 this.force = d3.layout.force()
                         .nodes(defaultConfig.data.nodes)
@@ -219,15 +288,15 @@ var graph_area={
                         .attr("class", "circle")
                         .attr("xlink:href", function(d) {
                             if (d.is_core==true){
-                                image_path='/companydata/image/core_factory.png';
+                                image_path='/thaubing_UI/image/core_factory.png';
                             }
                             else{
                                 if (d.no_holder==true)
-                                    image_path='/companydata/image/no_holder_factory.png';
+                                    image_path='/thaubing_UI/image/no_holder_factory.png';
                                 else if (d.taxcode!='NA')
-                                    image_path='/companydata/image/tw_factory.png';
+                                    image_path='/thaubing_UI/image/tw_factory.png';
                                 else
-                                    image_path='/companydata/image/other_factory.png';
+                                    image_path='/thaubing_UI/image/other_factory.png';
                             }
                             
                             
@@ -266,7 +335,43 @@ var graph_area={
                     _this.vis.attr("transform","translate("+d3.event.translate+") scale("+d3.event.scale+")")
                 };
 
+                d3.selectAll('button').on('click', this.clickZoom);
+                var interpolateZoom=function(translate, scale) {
+                    var self = this;
+                    return selection.transition().duration(350)
+                              .call(zoom.transform, 
+                                    d3.zoomIdentity.translate(translate[0], translate[1]).scale(scale))
+                }
 
+                this.clickZoom=function(){
+                    var clicked = d3.event.target,
+                    direction = 1,
+                    factor = 0.1,
+                    target_zoom = 1,
+                    center = [defaultConfig.width / 2, defaultConfig.height / 2],
+                    extent = zoom.scaleExtent(),
+                    translate = d3.zoomTransform(selection.node()), // ADDED
+                    translate0 = [],
+                    l = [],
+                    view = {x: translate.x, y: translate.y, k: translate.k};
+
+                    d3.event.preventDefault();
+                    direction = (this.id === 'zoom_in') ? 1 : -1;
+                    console.log('DIRECTiON:', direction);
+                    target_zoom = view.k * (1 + factor * direction);
+
+                    if (target_zoom < extent[0] || target_zoom > extent[1]) { return false; }
+
+                    translate0 = [(center[0] - view.x) / view.k, (center[1] - view.y) / view.k];
+                    view.k = target_zoom;
+                    l = [translate0[0] * view.k + view.x, translate0[1] * view.k + view.y];
+
+                    view.x += center[0] - l[0];
+                    view.y += center[1] - l[1];
+
+                    interpolateZoom([view.x, view.y], view.k);
+                };    
+                
                 var findMaxWeightNode=function(){
                     var baseWeight= 1,baseNode;
                     defaultConfig.data.nodes.forEach(function(item){
@@ -293,6 +398,7 @@ var graph_area={
                 _this.force.on("tick", this.tick);
 
             }
+    
             new GroupExplorer('body',{
                 data:json
             });

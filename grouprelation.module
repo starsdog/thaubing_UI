@@ -1,5 +1,6 @@
 <?php
 define('GROUPRELATION_YEAR', '2016');
+define('OPENGROUPS_GITHUB', 'https://github.com/starsdog/openGroups');
 
 function grouprelation_menu() {
   $items['group/search'] = array(
@@ -84,13 +85,14 @@ function groupinfo_show($group_name){
       if (!empty($group_data)) {
         // set page title
         drupal_set_title($group_data->company_summery->group_name. '集團');
+        $download_url = OPENGROUPS_GITHUB.'/tree/master/group_relation/'.$group_name;
         // we should use php to generate static data here for better SEO
         $summary = array(
           '集團公司總數' => $group_data->company_summery->company_amount.'家',
-          '是否有裁罰記錄' => $group_data->company_summery->has_fine ? '是' : '否',
-          '有裁罰記錄公司總數' => $group_data->company_summery->fine_company_amount . '家',
-          '裁罰記錄總數' => $group_data->company_summery->fine_record_num.'次',
-          '裁罰金額總數' => 'NTD $'.number_format($group_data->company_summery->fine_penalty_amount). ' 元',
+          '於台灣環境是否有裁罰記錄' => $group_data->company_summery->has_fine ? '是' : '否',
+          '於台灣環境有裁罰記錄公司總數' => $group_data->company_summery->fine_company_amount . '家',
+          '於台灣環境裁罰紀錄總數' => $group_data->company_summery->fine_record_num.'次',
+          '於台灣環保署裁罰金額總數' => 'NTD $'.number_format($group_data->company_summery->fine_penalty_amount). ' 元',
         );
         $items = array();
         foreach($summary as $label => $s) {
@@ -101,8 +103,9 @@ function groupinfo_show($group_name){
         $output .= '<h2 class="group-data-title">集團基本資料</h2>';
         $output .= '<div id="table_summery_area" class="group-data-block">';
         $output .= '<div id="summery_content">';
-        $output .= '<ul><li>'.implode('</li><li>', $items).'</li></ul>';
-        $output .= '</div></div>';
+        $output .= '<ul><li>'.implode('</li><li>', $items).'</li>';
+        $output .= '<li>集團資料出處:<a href="'.$download_url.'">下載</a></li>';
+        $output .= '</ul></div></div>';
 
         $graph_url = base_path().'companydata/graph.html?year='.GROUPRELATION_YEAR.'&group='.$group_name;
         $output .= '<h2 class="group-data-title">集團關係圖</h2>';
@@ -185,7 +188,7 @@ function query_belong_group($search_target, $search_type){
 }
 
 function grouprelation_search(){
-    $title = '集團搜尋';
+    $title = GROUPRELATION_YEAR.'年集團搜尋';
     drupal_set_title($title);
 
     $stock_target='';
@@ -216,10 +219,11 @@ function grouprelation_search(){
     $output .= '<div class="group-search-form">';
     $output .= '<form>';
     $output .= '<div class="form-item"><label for="search_text">集團或公司名稱</label><input id="search_text" name="search_text" type="text" class="form-text"'.' value="'.$name_target.'"/></div>';
-    $output .= '<div class="form-item"><label for="search_stock">公司股票</label><input id="search_stock" name="search_stock" type="text" class="form-text"'.' value="'.$stock_target.'"/></div>';
+    $output .= '<div class="form-item"><label for="search_stock">公司股票代號</label><input id="search_stock" name="search_stock" type="text" class="form-text"'.' value="'.$stock_target.'"/></div>';
     $output .= '<div class="form-item"><label for="search_taxcode">公司統一編號</label><input id="search_taxcode" name="search_taxcode" type="text" class="form-text"'.' value="'.$taxcode_target.'"/></div>';
     $output .= '<div class="form-item submit-buttons"><input type="submit" class="form-submit btn-4 rounded" value="查詢" /></div>';
     $output .= '</form>';
+    $output .= '<a href="/companydata/openGroupLanding/index.html"><img src="/companydata/image/poweredby-g0v.png"></img></a>';
     $output .= '</div>';
 
     $output .= '<div id="table_group_list_area" style="display: none" class="group-search-list">';

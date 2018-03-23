@@ -4,16 +4,27 @@ function open_graph(year, group_name){
 }
 var groupName_table={
     'group_map':new Object(),
+    'group_index':new Object(),
 
     'prepareTable':function(result){
-        var row='<ul>';
         var count=1;
+        var row='';
         $.each(result, function (index, group_no) {
+            var group_idx=groupName_table.group_index[group_no];
             var link='/group/name/'+group_no;
-            row+='<li><a href="'+link+'">'+groupName_table.group_map[group_no]+'</li>';
+            row+='<div class="group-item">';
+            row+='<div class="group-desc">';
+            row+='<span class="group-name"><a href="'+link+'">'+groupName_table.group_map[group_idx]['name']+'集團';
+            row+='</a></span>'
+            row+='<span class="penalty-count">    共'+groupName_table.group_map[group_idx]['fine_num']+'個開罰紀錄';
+            row+='</span></div>';
+            row+='<div class="group-company">';
+            $.each(groupName_table.group_map[group_idx]['name_list'], function(index, name){
+                row+='<span>'+name+'  /   </span>';
+            }); 
+            row+='</div></div>';   
             count+=1;
         });  
-        row += '</ul>'; 
         $('#table_group_list').append(row); 
     },
 
@@ -23,11 +34,14 @@ var groupName_table={
         }
         else{
             group_file='/companydata/group_relation/groupName_'+year+'.json';
-            $.get(group_file,function(data){
-                groupName_table.group_map=data;
-                groupName_table.prepareTable(result);
+            group_index_file='/companydata/group_relation/groupNameIndex_'+year+'.json';
+            $.get(group_index_file,function(data){
+                groupName_table.group_index=data;
+                $.get(group_file,function(data){
+                    groupName_table.group_map=data;
+                    groupName_table.prepareTable(result);
+                });
             });
-
         }
     },
 

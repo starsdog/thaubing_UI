@@ -6,8 +6,9 @@ if (typeof group_name != 'undefined'){
         group_file='/companydata/group_relation/groupName_'+year+'.json';
         $.get(group_file,function(data){
             group_no_list=[];
-            $.each(data, function (index, dict) {
-                group_no_list.push(index);
+            $.each(data, function (index, group_data) {
+                console.log(group_data);
+                group_no_list.push(group_data['group_no']);
             });   
             groupName_table.loadData(group_no_list);
             groupName_table.show(); 
@@ -55,7 +56,7 @@ function RelationItem(json){
     this.taxcode_source=json ? json.taxcode_source:null;
     this.target=json ? json.target:null;
     this.taxcode_target=json ? json.taxcode_target:null;
-
+   
     this.rawJSON = function () {
         return {
             'source': this.source,
@@ -91,7 +92,10 @@ function GroupInfo(json){
 function TargetSourceItem(index, json){
     this.name=index;
     this.taxcode=json ? json.taxcode:null;
-    
+     if(this.taxcode==='NA'){
+        this.taxcode='非本國公司無統一編號';
+    }
+
     source_list=json ? json.source_list:null;
     parsed_source = [];
     $.each(source_list, function(index, dict){
