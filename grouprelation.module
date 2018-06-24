@@ -143,6 +143,7 @@ function groupinfo_show($group_name){
         $output .= '<th >裁罰金額</th>';
         $output .= '<th >違反法律</th>';
         $output .= '<th >是否請願</th>';
+        $output .= '<th >是否裁罰成立</th>';
         $output .= '</tr></thead></table>';
         $output .= '</div>';
 
@@ -240,7 +241,7 @@ function query_fine_record($taxcode){
     //if($_REQUEST['taxcode']!=''){
     //  $taxcode=$_REQUEST['taxcode'];
 
-    $query = "SELECT factory_fine.facility_name, factory_fine.penalty_date, factory_fine.penalty_money, factory_fine.transgress_law, factory_fine.is_petition, factory_fine.petition_results, factory_corp.registration_no from factory_fine, factory_corp where factory_corp.corp_id=:taxcode and factory_corp.registration_no=factory_fine.registration_no";
+    $query = "SELECT factory_fine.facility_name, factory_fine.penalty_date, factory_fine.penalty_money, factory_fine.transgress_law, factory_fine.is_petition, factory_fine.petition_results, factory_corp.registration_no, factory_fine.fine_or_note from factory_fine, factory_corp where factory_corp.corp_id=:taxcode and factory_corp.registration_no=factory_fine.registration_no";
     $args = array(
       ':taxcode' => $taxcode,
     );
@@ -253,7 +254,8 @@ function query_fine_record($taxcode){
         'penalty_money'=>$r->penalty_money,
         'transgress_law'=>$r->transgress_law,
         'is_petition'=>$r->is_petition,
-        'petition_results'=>$r->petition_results
+        'petition_results'=>$r->petition_results,
+        'fine_or_not'=>$r->fine_or_note
       );
       array_push($rows, $row);
     }

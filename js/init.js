@@ -137,6 +137,7 @@ var fine_record_table={
                 {data: "transgress_law"},
                 {data: "is_petition"},
                 {data: "petition_result"},
+                {data: "fine_or_not"},
             ],
             order: [[1, 'desc']],
             dom: 'Bfrtlip',

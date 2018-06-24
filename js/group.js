@@ -38,6 +38,14 @@ function FineRecordItem(json){
     this.transgress_law=json ? json.transgress_law: null;
     this.is_petition=json ? json.is_petition: null;
     this.petition_result=json ? json.petition_results: null;
+    this.fine_or_not=json ? json.fine_or_not: null;
+    
+    if (this.fine_or_not==1){
+        this.fine_or_not = '是'
+    }
+    else{
+        this.fine_or_not = '否'
+    }
 
     this.rawJSON = function () {
         return {
@@ -46,7 +54,8 @@ function FineRecordItem(json){
             'penalty_money': this.penalty_money,
             'transgress_law': this.transgress_law,
             'is_petition': this.is_petition,
-            'petition_result': this.petition_result
+            'petition_result': this.petition_result,
+            'fine_or_not': this.fine_or_not
         }
     }
 }
@@ -92,7 +101,7 @@ function GroupInfo(json){
 function TargetSourceItem(index, json){
     this.name=index;
     this.taxcode=json ? json.taxcode:null;
-     if(this.taxcode==='NA'){
+    if(this.taxcode==='NA'){
         this.taxcode='非本國公司無統一編號';
     }
 
